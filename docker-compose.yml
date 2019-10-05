@@ -1,0 +1,36 @@
+version: "3"
+
+services: 
+  python37:
+    build:
+      context: ./config/python
+      dockerfile: Dockerfile
+    volumes: 
+      - ./code:/app
+    ports:
+      - "80:5000"
+    networks: 
+      flask_net:
+        ipv4_address: 7.7.7.2
+  mysql_flask:
+        build:
+            context: ./config/mysql
+            dockerfile: Dockerfile
+        container_name: mysql_flask
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: flask
+            MYSQL_DATABASE: pythonflask
+        volumes:
+            - ./db/:/var/lib/mysql
+        networks:
+            flask_net:
+                ipv4_address: 7.7.7.3
+
+networks: 
+  flask_net:
+    driver: bridge
+    ipam:  
+      config: 
+        - subnet: "7.7.7.0/24"

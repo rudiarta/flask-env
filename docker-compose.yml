@@ -13,20 +13,31 @@ services:
       flask_net:
         ipv4_address: 7.7.7.2
   mysql_flask:
-        build:
-            context: ./config/mysql
-            dockerfile: Dockerfile
-        container_name: mysql_flask
-        ports:
-            - "3306:3306"
-        environment:
-            MYSQL_ROOT_PASSWORD: flask
-            MYSQL_DATABASE: pythonflask
-        volumes:
-            - ./db/:/var/lib/mysql
-        networks:
-            flask_net:
-                ipv4_address: 7.7.7.3
+    build:
+        context: ./config/mysql
+        dockerfile: Dockerfile
+    container_name: mysql_flask
+    ports:
+        - "3306:3306"
+    environment:
+        MYSQL_ROOT_PASSWORD: flask
+        MYSQL_DATABASE: pythonflask
+    volumes:
+        - ./db/:/var/lib/mysql
+    networks:
+        flask_net:
+            ipv4_address: 7.7.7.3
+  redis_flask:
+    build: 
+      context: ./config/redis
+      dockerfile: Dockerfile
+    ports:
+      - "6379:6379"
+    volumes: 
+      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks: 
+      flask_net:
+        ipv4_address: 7.7.7.4
 
 networks: 
   flask_net:

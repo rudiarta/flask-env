@@ -1,3 +1,4 @@
 db/
 code/env/
 code/migrations/*
+**__pycache__**

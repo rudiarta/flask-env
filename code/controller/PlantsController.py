@@ -1,27 +1,28 @@
-from model.PlantsModel import *
+from model.PlantsModel import PlantsModel
+from app import db
 import jwt
 import requests
 import json
 
 class PlantsController:
     statuscode = 200
-    def __init__(self,requestData,appData):
+    def __init__(self,requestData):
         self.requestData = requestData
-        self.appData = appData
 
     def listAllPlants(self):
-        x = ArticleModel()
-        y = self.requestData.get_json()
-        y = json.dumps(y)
-        y = json.loads(y)
-        return {"name":y["name"]}
+        isi = PlantsModel.query.all()
+        for x in isi:
+            print(x.name)
+        
+        return {"name":"data.name","category":"data.category"}
 
     def insertPlants(self):
         requestData = self.requestData
         try:
-            x = int(requestData.form['number'])
-            result = x * 2
-            return {"sum":result}
+            data = PlantsModel(requestData.form['name'],requestData.form['category'])
+            db.session.add(data)
+            db.session.commit()
+            return {"name":data.name,"category":data.category}
         except:
             self.statuscode = 406
-            return {"message":"error, params not integer"}
+            return {"message":"error, ..."}

@@ -1,5 +1,5 @@
 import os
 
-class ArticleModel:
+class PlantsModel:
     def show(self):
         return os.getenv("test")

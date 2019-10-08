@@ -11,6 +11,8 @@ $ source env/bin/activate
 use library
 ```bash
 $ pip3 install flask flask-sqlalchemy
+$ pip3 install flask_script
+$ pip3 install pymysql
 $ pip3 install pyjwt
 $ pip3 install requests
 ```

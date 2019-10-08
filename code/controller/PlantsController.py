@@ -1,22 +1,22 @@
-from model.ArticleModel import *
+from model.PlantsModel import *
 import jwt
 import requests
 import json
 
-class ArticleController:
+class PlantsController:
     statuscode = 200
     def __init__(self,requestData,appData):
         self.requestData = requestData
         self.appData = appData
 
-    def listAllArticle(self):
+    def listAllPlants(self):
         x = ArticleModel()
         y = self.requestData.get_json()
         y = json.dumps(y)
         y = json.loads(y)
         return {"name":y["name"]}
 
-    def insertArticle(self):
+    def insertPlants(self):
         requestData = self.requestData
         try:
             x = int(requestData.form['number'])

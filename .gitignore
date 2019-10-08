@@ -1,1 +1,3 @@
 db/
+code/env/lib/*
+code/migrations/*

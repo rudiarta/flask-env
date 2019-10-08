@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("MYSQL_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET'])
 def listAllPlants():
     controller = PlantsController(request)
     return make_response(controller.listAllPlants(), controller.statuscode)

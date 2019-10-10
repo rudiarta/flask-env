@@ -14,6 +14,11 @@ def listAllPlants():
     controller = PlantsController(request)
     return make_response(controller.listAllPlants(), controller.statuscode)
 
+@app.route('/limit/<int:post_id>', methods=['GET'])
+def listLimitPlants(post_id):
+    controller = PlantsController(request)
+    return make_response(controller.listLimitPlants(post_id), controller.statuscode)
+
 @app.route('/insert', methods=['POST'])
 def insertPlants():
     controller = PlantsController(request)

@@ -22,6 +22,17 @@ class PlantsController:
 
         return {"plants":returns}
 
+    def listLimitPlants(self, post_id):
+        isi = PlantsRepository.query.limit(post_id).all()
+        data = {}
+        returns = []
+        for x in isi:
+            data['name'] = x.name
+            data['category'] = x.category
+            returns.append(data)   
+            data = {} 
+        return {"plants":returns}
+
     def insertPlants(self):
         requestData = self.requestData
         try:

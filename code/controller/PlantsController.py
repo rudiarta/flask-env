@@ -1,4 +1,4 @@
-from model.PlantsModel import PlantsModel
+from repository.PlantsRepository import PlantsRepository
 from app import db
 import jwt
 import requests
@@ -10,19 +10,29 @@ class PlantsController:
         self.requestData = requestData
 
     def listAllPlants(self):
-        isi = PlantsModel.query.all()
+        isi = PlantsRepository.query.all()
+        data = {}
+        returns = []
         for x in isi:
-            print(x.name)
-        
-        return {"name":"data.name","category":"data.category"}
+            data['name'] = x.name
+            data['category'] = x.category
+            returns.append(data)   
+            data = {} 
+
+        return {"plants":returns}
 
     def insertPlants(self):
         requestData = self.requestData
         try:
-            data = PlantsModel(requestData.form['name'],requestData.form['category'])
-            db.session.add(data)
-            db.session.commit()
-            return {"name":data.name,"category":data.category}
+            plants = PlantsRepository()
+            returns = plants.addPlants(requestData.form['name'],requestData.form['category'])
+            return {"name":returns.name,"category":returns.category}
         except:
             self.statuscode = 406
             return {"message":"error, ..."}
+
+    def deletePlants(self):
+        requestData = self.requestData
+        plants = PlantsRepository()
+        returns = plants.deletePlants(requestData.form['id'])
+        return {"message":"del"}

@@ -11,6 +11,7 @@ class PlantsController:
 
     def listAllPlants(self):
         isi = PlantsRepository.query.all()
+        # isi = PlantsRepository.query.limit(4).all()
         data = {}
         returns = []
         for x in isi:
@@ -29,10 +30,22 @@ class PlantsController:
             return {"name":returns.name,"category":returns.category}
         except:
             self.statuscode = 406
-            return {"message":"error, ..."}
+            return {"message":"error, while inserting ..."}
 
-    def deletePlants(self):
+    def deletePlants(self, post_id):
         requestData = self.requestData
         plants = PlantsRepository()
-        returns = plants.deletePlants(requestData.form['id'])
-        return {"message":"del"}
+        returns = plants.deletePlants(post_id)
+        if(returns==1):
+            return {"message":  "id: "+str(post_id)+" deleted"}
+        self.statuscode = 406
+        return {"message":"data not found"}
+
+    def updatePlants(self, post_id):
+        requestData = self.requestData
+        plants = PlantsRepository()
+        returns = plants.updatePlants(post_id,requestData.form['name'],requestData.form['category']) 
+        if(returns==True):
+            return {"message":"update"}
+        self.statuscode = 406
+        return {"message":"data not found"}

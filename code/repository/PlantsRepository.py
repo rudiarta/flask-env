@@ -14,10 +14,14 @@ class PlantsRepository(PlantsModel):
 
     def updatePlants(self, x, name, category):
         plants = PlantsModel.query.filter_by(id=x).first()
+        if not plants:
+            return False
         plants.name = name
         plants.category = category
         db.session.commit()
+        return True
 
     def deletePlants(self, x):
-        PlantsModel.query.filter_by(id=x).delete()
+        data = PlantsModel.query.filter_by(id=x).delete()
         db.session.commit()
+        return data

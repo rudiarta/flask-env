@@ -19,5 +19,15 @@ def insertPlants():
     controller = PlantsController(request)
     return make_response(controller.insertPlants(), controller.statuscode)
 
+@app.route('/delete/<int:post_id>', methods=['GET'])
+def deletePlants(post_id):
+    controller = PlantsController(request)
+    return make_response(controller.deletePlants(post_id), controller.statuscode)
+
+@app.route('/update/<int:post_id>', methods=['POST'])
+def updatePlants(post_id):
+    controller = PlantsController(request)
+    return make_response(controller.updatePlants(post_id), controller.statuscode)
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

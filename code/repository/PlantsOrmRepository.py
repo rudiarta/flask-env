@@ -1,11 +1,11 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy import create_engine
 import os
-# settings.py
+
+# settings.py << use for dotEnv
 from dotenv import load_dotenv
 load_dotenv()
-
-# OR, the same with increased verbosity:
+# OR, the same with increased verbosity: << use for dotEnv
 load_dotenv(verbose=True)
 
 engine = create_engine(os.getenv("MYSQL_URL"), echo = True)

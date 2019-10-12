@@ -1,4 +1,5 @@
 from repository.PlantsRepository import PlantsRepository
+from repository.PlantsOrmRepository import addTanaman
 from helper.Helpers import Helpers
 from main import db
 import jwt
@@ -48,17 +49,14 @@ class PlantsController:
 
     def insertWithCache(self):
         requestData = self.requestData
-        result = Helpers.initQueue('low').enqueue(test, requestData.form['name'])
-        print(result)
-        return {"message":"add to queue"}
-        # try:
-        #     q = Queue(connection=Redis(os.getenv("REDIS_HOST"),os.getenv("REDIS_PORT"),password=os.getenv("REDIS_PASSWORD")))
-        #     result = q.enqueue(PlantsRepository.addPlants, requestData.form['name'],requestData.form['category'])
-        #     print(result)
-        #     return {"message":"add to queue"}
-        # except:
-        #     self.statuscode = 406
-        #     return {"message":"error, while inserting ..."}
+
+        try:
+            result = Helpers.initQueue('low').enqueue(addTanaman, requestData.form['name'],requestData.form['category'])
+            print(result)
+            return {"message":"add to queue"}
+        except:
+            self.statuscode = 406
+            return {"message":"error, while inserting ..."}
 
     def deletePlants(self, post_id):
         requestData = self.requestData

@@ -1,4 +1,4 @@
-from app import db
+from main import db
 
 class PlantsModel(db.Model):
     __tablename__ = "plants"

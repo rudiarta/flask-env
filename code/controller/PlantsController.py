@@ -1,9 +1,14 @@
 from repository.PlantsRepository import PlantsRepository
-from app import db
+from repository.PlantsOrmRepository import addTanaman
+from helper.Helpers import Helpers
+from main import db
 import jwt
 import requests
 import json
 
+
+def test(x):
+    print(x)
 class PlantsController:
     statuscode = 200
     def __init__(self,requestData):
@@ -36,17 +41,27 @@ class PlantsController:
     def insertPlants(self):
         requestData = self.requestData
         try:
-            plants = PlantsRepository()
-            returns = plants.addPlants(requestData.form['name'],requestData.form['category'])
-            return {"name":returns.name,"category":returns.category}
+            plants = PlantsRepository.addPlants(requestData.form['name'],requestData.form['category'])
+            return {"name":plants.name,"category":plants.category}
+        except:
+            self.statuscode = 406
+            return {"message":"error, while inserting ..."}
+
+    def insertWithCache(self):
+        requestData = self.requestData
+
+        try:
+            result = Helpers.initQueue('low').enqueue(addTanaman, requestData.form['name'],requestData.form['category'])
+            print(result)
+            return {"message":"add to queue"}
         except:
             self.statuscode = 406
             return {"message":"error, while inserting ..."}
 
     def deletePlants(self, post_id):
         requestData = self.requestData
-        plants = PlantsRepository()
-        returns = plants.deletePlants(post_id)
+        
+        returns = PlantsRepository.deletePlants(post_id)
         if(returns==1):
             return {"message":  "id: "+str(post_id)+" deleted"}
         self.statuscode = 406
@@ -54,8 +69,8 @@ class PlantsController:
 
     def updatePlants(self, post_id):
         requestData = self.requestData
-        plants = PlantsRepository()
-        returns = plants.updatePlants(post_id,requestData.form['name'],requestData.form['category']) 
+        
+        returns = PlantsRepository.updatePlants(post_id,requestData.form['name'],requestData.form['category']) 
         if(returns==True):
             return {"message":"update"}
         self.statuscode = 406

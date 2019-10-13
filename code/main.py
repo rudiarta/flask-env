@@ -24,6 +24,11 @@ def insertPlants():
     controller = PlantsController(request)
     return make_response(controller.insertPlants(), controller.statuscode)
 
+@app.route('/insert/cache', methods=['POST'])
+def insertPlantsQueue():
+    controller = PlantsController(request)
+    return make_response(controller.insertWithCache(), controller.statuscode)
+
 @app.route('/delete/<int:post_id>', methods=['GET'])
 def deletePlants(post_id):
     controller = PlantsController(request)

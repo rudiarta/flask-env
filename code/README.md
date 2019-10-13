@@ -1,6 +1,6 @@
 ## Make python virtual env
 ```bash
-$ virtualen env
+$ virtualenv env
 ```
 
 ## Flask project create endpoint articles

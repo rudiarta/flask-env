@@ -1,18 +1,18 @@
 from model.PlantsModel import PlantsModel
-from app import db
+from main import db
 
 class PlantsRepository(PlantsModel):
     def __init__(self):
         pass
 
-    def addPlants(self, name, category):
+    def addPlants(name, category):
         data = PlantsModel(name, category)
         db.session.add(data)
         db.session.commit()
         print(data.id)
         return data
 
-    def updatePlants(self, x, name, category):
+    def updatePlants(x, name, category):
         plants = PlantsModel.query.filter_by(id=x).first()
         if not plants:
             return False
@@ -21,7 +21,7 @@ class PlantsRepository(PlantsModel):
         db.session.commit()
         return True
 
-    def deletePlants(self, x):
+    def deletePlants(x):
         data = PlantsModel.query.filter_by(id=x).delete()
         db.session.commit()
         return data

@@ -1,6 +1,19 @@
 version: "3"
 
 services: 
+  nginx_flasek:
+    build:
+      context: ./config/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "9090:80"
+      - "443:443"
+    volumes:
+      - './config/nginx/conf.d:/etc/nginx/conf.d:rw'
+      - './htdocs:/usr/share/nginx/html:rw'
+    networks: 
+      flask_net:
+        ipv4_address: 7.7.7.5
   python37:
     build:
       context: ./config/python

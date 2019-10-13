@@ -1,5 +1,32 @@
 <html>
     <body>
         <h1>aas</h1>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		$.ajax({
+			url: "http://localhost:3000/read",
+			type: "GET",
+			dataType: "json",
+			success: function(response){
+				var html = "";
+				$.each(response.Body,function(key,value){
+					key = parseInt(key)+1;
+					html=html+"<tr><td>"+key+"</td><td>"+value["Judul"]+"</td><td>"+value["Artikel"]+"</td><td>"+value["Author"]+"</td><td>"+value["Tanggal"]+"</td><td><a class='btn btn-sm btn-primary' href='http://testinglocal/read_artikel.html?id_artikel="+value["IDArtikel"]+"'>Lihat</a><a class='btn btn-sm btn-info' href='http://testinglocal/update_artikel.html?id_artikel="+value["IDArtikel"]+"'>Update</a><button class='btn btn-sm btn-danger hapus' value='"+value["IDArtikel"]+"'>Hapus</button></td></tr>";
+				});
+				$("tbody").html(html);
+			}
+		});
+		$(document).on("click",".hapus",function(){
+			var value = $(this).val();
+			$.ajax({
+				url: "http://localhost:3000/delete/"+value,
+				type: "DELETE",
+				success: function(response){
+					window.location.href="http://testinglocal";
+				}
+			});
+		});
+	</script>
     </body>
 </html>

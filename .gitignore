@@ -2,3 +2,4 @@ db/
 code/env/
 code/migrations/*
 **__pycache__**
+.idea

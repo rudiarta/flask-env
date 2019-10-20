@@ -16,7 +16,7 @@ def listAllPlants():
     try:
         result = make_response(controller.listAllPlants(), controller.statuscode)
     except:
-        result = make_response(controller, 405)
+        result = make_response(controller, 401)
     return result
 
 @app.route('/limit/<int:post_id>', methods=['GET'])

@@ -1,14 +1,7 @@
 from repository.PlantsRepository import PlantsRepository
 from repository.PlantsOrmRepository import addTanaman
 from helper.Helpers import Helpers
-from main import db
-import jwt
-import requests
-import json
 
-
-def test(x):
-    print(x)
 class PlantsController:
     statuscode = 200
     def __init__(self,requestData):

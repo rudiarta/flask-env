@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, make_response
 from controller.PlantsController import *
+from middleware.authJwtMiddleware import authJwtMiddleware
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -11,8 +12,12 @@ db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET'])
 def listAllPlants():
-    controller = PlantsController(request)
-    return make_response(controller.listAllPlants(), controller.statuscode)
+    controller =  authJwtMiddleware(PlantsController(request), request.headers['x-access-token']).handle()
+    try:
+        result = make_response(controller.listAllPlants(), controller.statuscode)
+    except:
+        result = make_response(controller, 405)
+    return result
 
 @app.route('/limit/<int:post_id>', methods=['GET'])
 def listLimitPlants(post_id):

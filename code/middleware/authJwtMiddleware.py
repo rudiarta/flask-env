@@ -9,4 +9,4 @@ class authJwtMiddleware():
         if(self.token == "rudi"):
             return self.next
         else:
-            return "Token not valid !!!"
+            return "Token empty or not valid !!!"

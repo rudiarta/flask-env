@@ -12,11 +12,16 @@ db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET'])
 def listAllPlants():
-    controller =  authJwtMiddleware(PlantsController(request), request.headers['x-access-token']).handle()
+    controller = None
     try:
+        controller = authJwtMiddleware(PlantsController(request), request.headers['x-access-token']).handle()
         result = make_response(controller.listAllPlants(), controller.statuscode)
     except:
-        result = make_response(controller, 401)
+        if controller is None:
+            data = {"message":"Error !! x-access-token is not set"}
+        else:
+            data = {"message":controller}
+        result = make_response(data, 401)
     return result
 
 @app.route('/limit/<int:post_id>', methods=['GET'])

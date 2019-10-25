@@ -51,6 +51,19 @@ services:
     networks: 
       flask_net:
         ipv4_address: 7.7.7.4
+  nodejs_flask:
+    build:
+      context: ./config/nodejs
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "5000:5000"
+    volumes:
+      - './htdocs:/htdocs:rw'
+    networks:
+      flask_net:
+        ipv4_address: 7.7.7.6
+
 
 networks: 
   flask_net:

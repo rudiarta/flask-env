@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, make_response
 from controller.PlantsController import *
+from middleware.authJwtMiddleware import authJwtMiddleware
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -11,8 +12,17 @@ db = SQLAlchemy(app)
 
 @app.route('/', methods=['GET'])
 def listAllPlants():
-    controller = PlantsController(request)
-    return make_response(controller.listAllPlants(), controller.statuscode)
+    controller = None
+    try:
+        controller = authJwtMiddleware(PlantsController(request), request.headers['x-access-token']).handle()
+        result = make_response(controller.listAllPlants(), controller.statuscode)
+    except:
+        if controller is None:
+            data = {"message":"Error !! x-access-token is not set"}
+        else:
+            data = {"message":controller}
+        result = make_response(data, 401)
+    return result
 
 @app.route('/limit/<int:post_id>', methods=['GET'])
 def listLimitPlants(post_id):

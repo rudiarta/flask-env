@@ -28,9 +28,9 @@ $ rq worker --url redis://root:@7.7.7.4:6379/
 
 ## using migrate
 ```bash
-$ python3 migration/PlantsMigrateDB.py db init
-$ python3 migration/PlantsMigrateDB.py db migrate
-$ python3 migration/PlantsMigrateDB.py db upgrade
+$ python3 migration/DBMigrate.py db init
+$ python3 migration/DBMigrate.py db migrate
+$ python3 migration/DBMigrate.py db upgrade
 ```
 [Read More](https://flask-migrate.readthedocs.io/en/latest/#installation)
 

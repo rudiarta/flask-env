@@ -19,10 +19,15 @@ manager = Manager(app)
 
 manager.add_command('db', MigrateCommand)
 
+class PlantsCategory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+
 class Plants(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     category = db.Column(db.String(100))
+    # id_category = db.Column(db.Integer, db.ForeignKey('plants_category.id'))
 
 if __name__ == "__main__":
     manager.run()
